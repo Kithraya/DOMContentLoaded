@@ -1,7 +1,7 @@
 # DOMContentLoaded
 Cross-Browser DOMContentLoaded, with no dependencies.
 
-Tested via BrowserStack with documention from MDN and various other sites.
+Tested via BrowserStack with helpful documentation from MDN and various other sites.
 
 Works as soon as the DOM is ready in IE6+, Edge, Chrome 1+, Firefox 1+, Opera 9+, Safari 3.1+, Safari iOS, Samsung Internet, with a fallback to window.onload that works everywhere.
 
