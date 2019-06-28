@@ -76,7 +76,7 @@ function DOMContentLoaded(func) {
 	}
 	
 	function doIEScrollCheck() { // for use in IE only.
-	    if ( !(window.frameElement === null) ) { return; }
+	    if ( window.frameElement != null ) { return; }
 		try {
 		    document.documentElement.doScroll('left');	
 		} catch(error) {
