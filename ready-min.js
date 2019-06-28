@@ -17,11 +17,11 @@ function DOMContentLoaded(func) {
 	function ready(ev) {if (alreadyRun) {return} alreadyRun = true; detach(); func.call(this, ev); }
 	function detach() { if (document[ael]) { document[rel]("DOMContentLoaded", ready, false); window[rel]("load", ready, false);} else
 		if (document[aev]) { window[dev]("onload", ready); } else {window.onload = null;}	
-  }
+  	}
 	
 	function doIEScrollCheck() { if ( !(window.frameElement === null) ) { return; }
-		try {document.documentElement.doScroll('left');	} catch(error) {
-		    setTimeout(function() {(document.readyState === 'complete') ? ready.call(document, {}) : doIEScrollCheck();}, 50); return;
-		} ready.call(document, {});
+	    try {document.documentElement.doScroll('left'); } catch(error) {
+		setTimeout(function() {(document.readyState === 'complete') ? ready.call(document, {}) : doIEScrollCheck();}, 50); return;
+	    } ready.call(document, {});
 	}
 }
