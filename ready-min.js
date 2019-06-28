@@ -19,7 +19,7 @@ function DOMContentLoaded(func) {
 		if (document[aev]) { window[dev]("onload", ready); } else {window.onload = null;}	
   	}
 	
-	function doIEScrollCheck() { if ( !(window.frameElement === null) ) { return; }
+	function doIEScrollCheck() { if ( window.frameElement != null ) { return; }
 	    try {document.documentElement.doScroll('left'); } catch(error) {
 		setTimeout(function() {(document.readyState === 'complete') ? ready.call(document, {}) : doIEScrollCheck();}, 50); return;
 	    } ready.call(document, {});
