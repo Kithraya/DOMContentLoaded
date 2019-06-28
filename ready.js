@@ -17,8 +17,8 @@ function DOMContentLoaded(func) { // Tested in IE6+
 		
 	// is IE < 9
 	var isOldIE = (function() { 
-		var version = new Function("/*@cc_on return @_jscript_version; @*/")(); // returns 5.6/7 for IE6, 5.7 for IE7, 5.8: IE8, 9: IE9, 10: IE10, 11: IE11 in IE10 mode. (Browser modes do not seem to affect JSCript engine);
-		return !!(version && parseInt( version, 10 ) < 9);
+	    var version = new Function("/*@cc_on return @_jscript_version; @*/")(); // returns 5.6/7 for IE6, 5.7 for IE7, 5.8: IE8, 9: IE9, 10: IE10, 11: IE11 in IE10 mode. (Browser modes do not seem to affect JSCript engine);
+	    return !!(version && parseInt( version, 10 ) < 9);
 	})();
 	
 	// check if the DOM has already loaded (for instance, if DOMContentLoaded was called within setTimeout(). Not sure why anyone would want to do that, but hey).
@@ -35,23 +35,24 @@ function DOMContentLoaded(func) { // Tested in IE6+
 		
 	if (document[ael]) {
 	    document[ael]("DOMContentLoaded", ready, false); 
-		window[ael]("load", ready, false); // fallback to window.onload that will always work. 
+	    window[ael]("load", ready, false); // fallback to window.onload that will always work. 
 	} else 
 	if (document[aev]) { window[aev]('onload', ready);
-		// old Opera (and technically old IE but IE is covered)
-		// Honestly if somebody is using a browser so outdated and obscure (like Opera 7 where neither addEventListener nor "DOMContLoaded" is supported, they deserve to wait for the full page. 
-		// I CBA testing whether readyState === 'interactive' on browsers designed in 2003. IE6+ is covered so I'm happy
+	    // old Opera (and technically old IE but IE is covered)
+	    // Honestly if somebody is using a browser so outdated and obscure (like Opera 7 where neither addEventListener nor "DOMContLoaded" is supported, they deserve to wait for the full page. 
+	    // I CBA testing whether readyState === 'interactive' on browsers designed in 2003. IE6+ is covered so I'm happy
 	} else {
 	window.onload = ready; //
 	}
 	
 	function detach() { // if addEventListener is defined, removeEventListener will literally always be defined and vice versa, same for attachEvent / detachEvent
-		if (document[ael]) { 
-		    document[rel]("DOMContentLoaded", ready, false); window[rel]("load", ready, false);
-		} else
-		if (document[aev]) { window[dev]("onload", ready); } else {
+	    if (document[ael]) { 
+	        document[rel]("DOMContentLoaded", ready, false); window[rel]("load", ready, false);
+	    } else
+		if (document[aev]) { window[dev]("onload", ready); } 
+	    else {
 		    window.onload = null;
-		}			
+	    }			
 	}
 	
 	function ready(ev) {
