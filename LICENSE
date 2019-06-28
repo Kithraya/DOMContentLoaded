@@ -1,32 +1,18 @@
-Adapted MIT License
-Version 1.0, 2019.
+MIT License
 
 Copyright (c) 2019 Kithraya
 
-Permission is hereby granted, free of charge, to any person or company obtaining a copy
+Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
-to use, copy, reverse-engineer, modify, merge, publish, distribute, and/or sell
-copies of the Software, subject to the following conditions:
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-1. The above copyright notice and this permission notice (or alternatively, for uses in electronic formats only, 
-a working text hyperlink pointing to a verbatim copy of this copyright and permission notice) 
-shall be included in all copies or substantial portions of this Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-2. The Software is royalty-free, and may not be patented, except by the original copyright holder(s). This is done in order 
-to prevent abuse by patent trolls. In other words, no-one may retain or attempt to acquire exclusive rights to use, 
-reproduce, sell, or modify this Software in any way, except for the orignal copyright holder(s). 
-In lieu of the original copyright holder(s) acquiring exclusive rights, these rights shall remain available to all.
-
-3. Sublicensing this Software is also not allowed.
-
-4. However, use of this Software within a larger framework or context (such as within a page of a book; 
-as a module of a Javascript library; within an online tutorial; etc.) 
-that may itself be patented, copyrighted, and / or sublicensed, is fine, as long as it is understood that using,
-reproducing, reverse-engineering, selling, or modifying this "Software" by itself may NEVER be considered
-valid grounds for any potential litigation proceedings, as it is already free to use.
-
-THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
