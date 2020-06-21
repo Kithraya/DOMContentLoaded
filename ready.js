@@ -20,12 +20,15 @@ function DOMContentLoaded(func) {
 	 // returns true if browser is IE < 9, false otherwise
 	 // conditional compilation only works in IE. So we can use this
 	
-	var isOldIE = (function() { 
-	     // version is undefined if not IE, "5.6/7" for IE6, "5.7": IE7, "5.8": IE8, "9": IE9, "10": IE10, "11": IE11 in IE10 mode.
- 	     // (IE Browser and compat modes do not affect the JScript engine used);
+	
+	var isOldIE = (function() {
 		
-	    var version = new Function("/*@cc_on return @_jscript_version; @*/")();
-	    return !!(version && parseInt( version, 10 ) < 9);
+	// version is undefined if not IE, "5.6/7" for IE6, "5.7": IE7, "5.8": IE8, "9": IE9, "10": IE10, "11": IE11 in older modes.
+ 	// (IE document modes do not affect the JScript engine used);
+		
+		var version = Number( new Function("/*@cc_on return @_jscript_version; @*/")() ) || undefined; 
+		return !!(version && version < 9);	
+	
 	})();
 	
 	 // check if the DOM has already loaded (for instance, if DOMContentLoaded was called within a setTimeout(). 
