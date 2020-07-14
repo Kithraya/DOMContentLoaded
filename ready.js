@@ -97,7 +97,7 @@ function DOMContentLoaded(func) {
 	function ready(ev) {
 	    if (alreadyRun) {return} alreadyRun = true; 
 		
-		var readyTime = microtime();
+		var readyDOMTime = microtime();
 		detach();
 						
 		// run the functions
@@ -105,7 +105,7 @@ function DOMContentLoaded(func) {
 			
 			if (typeof(func) === 'function') {
 				//console.log(func);
-				func.call(document, (ev === null ? ev : readyTime), microtime(), func); // run the function with parameters of when the DOM loaded
+				func.call(document, (ev === null ? ev : readyDOMTime), microtime(), func); // run the function with parameters of when the DOM loaded
 			}		
 		}
 	}
