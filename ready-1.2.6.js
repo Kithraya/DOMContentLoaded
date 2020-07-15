@@ -129,11 +129,14 @@ function DOMContentLoaded(func) {
 	}
 	
 	function doIEScrollCheck() { /// for use in IE < 9 only.
-	    if ( window.frameElement ) { // we're in an iframe or similar
+	    if ( window.frameElement ) { 
+		    // we're in an iframe or similar
+		    // document.documentElement.doScroll does not work if we're not executing at the top level (parent document); meaning if we're in an iframe, we return.
 			// revisit
-			try { window.attachEvent("onload", ready); } catch (e) { } // attach to onload if were in an <iframe> in IE as there's no way to tell otherwise
-			// try { if (aev in document) { window[aev]("onload", ready);} else { addOnload(ready) } } catch (e) { }
-			return;
+		try { window.attachEvent("onload", ready); } catch (e) { } // attach to onload if were in an <iframe> in IE as there's no way to tell otherwise
+		// try { if (aev in document) { window[aev]("onload", ready);} else { addOnload(ready) } } catch (e) { }
+		return;
+		    
 	    } 
 	    try {
 		document.documentElement.doScroll('left');	// when this statement no longer throws errors, the DOM is accessible in old IE
