@@ -8,7 +8,7 @@ function DOMContentLoaded(func) {
 	
 	var ael = 'addEventListener', rel = 'removeEventListener', aev = 'attachEvent', dev = 'detachEvent';
 	var alreadyRun = false, // for use in the idempotent function ready()
-	    funcs = arguments;
+	    funcs = arguments, undef;
 	    DOMContentLoaded.version = "1.2.6";
 		
 	// old versions of JS return '[object Object]' for null.
@@ -20,13 +20,13 @@ function DOMContentLoaded(func) {
 		readyState is 'interactive' from the beginning in IE6 so checking for the onreadystatechange event like jQuery does is kind of irrelevant
 		unless we're checking specifically for "readyState === 'complete'" which is basically the same as 'window.onload'
 		But IE9+ supports 'DOMContentLoaded' and 'addEventListener' anyway so it's fine (sorta).
-		readyState will be undefined in browsers that don't support it, but accessing undefined properties of 
+		readyState will be undefined in browsers that don't support it (zero), but accessing undefined properties of 
 		a defined object (document) does not throw Reference Errors
 	 */
 	
 	// Check for IE < 11 via conditional compilation
 	
-	var jscript_version = Number( new Function("/*@cc_on return @_jscript_version; @*/")() ) || void 0; // unalterable undefined
+	var jscript_version = Number( new Function("/*@cc_on return @_jscript_version; @*/")() ) || undef; // unalterable undefined
 	
 	// values: 5.6, 5.7, 5.8, 9, 10,(11), undefined. 
 	
