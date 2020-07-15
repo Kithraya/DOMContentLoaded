@@ -10,12 +10,20 @@ Works better than the jQuery equivalent, as the jQuery fallback tests for 'onrea
 You can use it out of the box like:
 
 ```
+
 DOMContentLoaded(function(e) { 
+
   console.log(e.readyDOMTime, e.funcExecuteTime); // 1594793362957, 1594793362958
   // if the DOM has already loaded by the time this function runs, e.readyDOMTime will be null
   
   // code to execute as soon as the DOM is loaded
-}); ```
+}, function(e) {
+
+ // separate execution context
+
+}, [....]);
+
+```
 
 
 jQuery Equivalent: ``$(document).ready(function() { });``
