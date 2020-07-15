@@ -11,7 +11,6 @@ function DOMContentLoaded(func) {
 	function type(obj) { return (obj === null) ? 'null' : Object.prototype.toString.call(obj).slice(8,-1).toLowerCase() }
 	function microtime() { return + new Date() } 
 	
-	
 	 /* IE6 to 10 don't return the correct readyState values as per the spec, except for readyState === 'complete'.
 		readyState is 'interactive' from the beginning in IE6 so checking for the onreadystatechange event like jQuery does is kind of irrelevant
 		unless we're checking specifically for "readyState === 'complete'" which is basically the same as 'window.onload' 
