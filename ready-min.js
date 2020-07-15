@@ -16,7 +16,6 @@ function DOMContentLoaded() {
 	if (document[ael]) { document[ael]("DOMContentLoaded", ready, false); window[ael]("load", ready, false); } else 
 	if (aev in document) {window[aev]('onload', ready);} else { addOnload(ready); }
 	
-
 	function addOnload(fn) { var prev = window.onload; 
 		if ( type( addOnload.queue ) !== 'array') { addOnload.queue = []; if (typeof(prev) === 'function') { addOnload.queue.push( prev ); }}
 		addOnload.queue.push(fn);
