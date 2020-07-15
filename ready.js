@@ -29,7 +29,7 @@ function DOMContentLoaded(func) {
 	
 	var jscript_version = Number( new Function("/*@cc_on return @_jscript_version; @*/")() ) || undef; // unalterable undefined; void(0) isn't supported until Safari 3.2.
 	
-	// values: 5.6, 5.7, 5.8, 9, 10,(11), undefined. 
+	// values: 5?: IE5, 5.5?: IE5.5, 5.6/5.7: IE6/7, 5.8: IE8, 9: IE9, 10: IE10, 11*: (IE11 older doc mode), undefined: IE11 / NOT IE
 
 	// if somehow readyState doesn't exist, use window.onload
 	if (!('readyState' in document)) { setTimeout( addOnload(ready), 1); return; } // queue window.onload within a function so we dont overwrite any original event handlers
@@ -37,21 +37,22 @@ function DOMContentLoaded(func) {
 	 // also check if the DOM has already loaded (for instance, if DOMContentLoaded was called within a setTimeout(), or after a window.onload();
 	 // Not sure why anyone would want to do that, but hey 
 	
-	if (document.readyState === 'complete') { setTimeout(ready(null), 1); return; }  // document.readyState === 'complete' reports correctly in every browser I have tested, including IE.
-	// we send null as the readyTime as we don't know when the DOM became ready	
+	if (document.readyState === 'complete') { setTimeout(ready(null), 1); return; }  
+	// document.readyState === 'complete' reports correctly in every browser I have tested, including IE6.
+	// we send `null` as the readyTime as we don't know when the DOM became ready	
 	
 	// (undefined > 9, undefined < 9, undefined === 9): false
 	if (jscript_version < 9) { doIEScrollCheck(); return; } // For IE<9 poll document.documentElement.doScroll(), no further actions are needed.
 	
-	 // IE9+ supports 'DOMContentLoaded' and 'addEventListener'.
+	// IE9+ supports 'DOMContentLoaded' and 'addEventListener'.
 	 
-	 // Script such as <script>...<\/script> or <script src="..."><\/script> not with attribute 'async' or 'defer' block 
-	 // DOMContentLoaded, the browser waits for them to execute. When the browser processes an HTML-document 
-	 // and comes across a <script> tag, it needs to execute before continuing building the DOM. 
-	 // That’s a precaution, as scripts may want to modify DOM, and even document.write into it, so DOMContentLoaded has to wait.
+	// Script such as <script>...<\/script> or <script src="..."><\/script> not with attribute 'async' or 'defer' block 
+	// DOMContentLoaded, the browser waits for them to execute. When the browser processes an HTML-document 
+	// and comes across a <script> tag, it needs to execute before continuing building the DOM. 
+	// That’s a precaution, as scripts may want to modify DOM, and even document.write into it, so DOMContentLoaded has to wait.
 
-	 // Chrome, Edge, Firefox, IE9+, Opera 9+, Safari 3.1+, Android Webview, Chrome for Android, Edge Mobile, 
-	 // Firefox for Android 4+, Opera for Android, iOS Safari, Samsung Internet, etc, support addEventListener
+	// Chrome, Edge, Firefox, IE9+, Opera 9+, Safari 3.1+, Android Webview, Chrome for Android, Edge Mobile, 
+	// Firefox for Android 4+, Opera for Android, iOS Safari, Samsung Internet, etc, support addEventListener
 		
 	if (document[ael]) {
 	    document[ael]("DOMContentLoaded", ready, false); 
@@ -68,7 +69,7 @@ function DOMContentLoaded(func) {
 	   addOnload(ready); // queue window.onload
 	}
 	
-	// this function allows us to preserve any original window.onload handlers (in super old browsers where this is necessary), 
+	// This function allows us to preserve any original window.onload handlers (in super old browsers where this is necessary), 
 	// while keeping the option to chain onloads, and dequeue them 
 	// for completeness' sake
 	function addOnload(fn) { 
@@ -89,7 +90,8 @@ function DOMContentLoaded(func) {
 		};
 		
 		if (fn === null) { window.onload = null; } // optional: reset window.onload, overwriting all previous events.
-	}	
+	}
+	
 	// remove a queued window.onload function from the chain	
 	function dequeueOnload(fn) { var q = addOnload.queue;
 		if ( type(q) !== 'array') { return } 
