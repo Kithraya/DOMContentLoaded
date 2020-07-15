@@ -17,9 +17,5 @@ DOMContentLoaded(function(e) {
   // code to execute as soon as the DOM is loaded
 }); ```
 
+
 jQuery Equivalent: ``$(document).ready(function() { });``
-
-
-
-
-
