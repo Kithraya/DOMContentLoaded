@@ -31,18 +31,16 @@ function DOMContentLoaded(func) {
 	
 	// values: 5?: IE5, 5.5?: IE5.5, 5.6/5.7: IE6/7, 5.8: IE8, 9: IE9, 10: IE10, 11*: (IE11 older doc mode), undefined: IE11 / NOT IE
 
-	// if somehow readyState doesn't exist, use window.onload
-	if (!('readyState' in document)) { setTimeout( addOnload(ready), 1); return; } // queue window.onload within a function so we dont overwrite any original event handlers
-	
-	 // also check if the DOM has already loaded (for instance, if DOMContentLoaded was called within a setTimeout(), or after a window.onload();
-	 // Not sure why anyone would want to do that, but hey 
-	
-	if (document.readyState === 'complete') { setTimeout(ready(null), 1); return; }  
-	// document.readyState === 'complete' reports correctly in every browser I have tested, including IE6.
-	// we send `null` as the readyTime as we don't know when the DOM became ready	
+	// check if the DOM has already loaded (for instance, if DOMContentLoaded was called within a setTimeout(), or after a window.onload();
+	// Not sure why anyone would want to do that, but hey 
+	if (document.readyState === 'complete') { setTimeout(ready(null), 1); return; }  // document.readyState === 'complete' reports correctly in every browser I have tested, including IE.
+	// we send null as the readyTime as we don't know when the DOM became ready	
 	
 	// (undefined > 9, undefined < 9, undefined === 9): false
 	if (jscript_version < 9) { doIEScrollCheck(); return; } // For IE<9 poll document.documentElement.doScroll(), no further actions are needed.
+
+	// if somehow readyState doesn't exist, use window.onload
+	if (!('readyState' in document)) { setTimeout( addOnload(ready), 1); return; } // queue window.onload within a function so we dont overwrite any original event handlers
 	
 	// IE9+ supports 'DOMContentLoaded' and 'addEventListener'.
 	 
@@ -107,7 +105,7 @@ function DOMContentLoaded(func) {
 	    if (alreadyRun) {return} alreadyRun = true; 
 		
 		var readyDOMTime = microtime(); // this time is when the DOM has loaded (or if all else fails, when it was actually possible to inference the DOM has loaded via a 'load' event)
-										// perhaps this should be `null` if we inference via a 'load' event, but I feel this functionality is better.
+		// perhaps this should be `null` if we inference via a 'load' event, but I feel this functionality is better.
 										
 		detach(); // detach any event handlers
 						
@@ -127,7 +125,7 @@ function DOMContentLoaded(func) {
 	    } else
 		if (dev in document) { window[dev]("onload", ready); } 
 	    else {
-			dequeueOnload(ready);
+		dequeueOnload(ready);
 	    }																
 	}
 	
@@ -137,15 +135,15 @@ function DOMContentLoaded(func) {
 			try { window.attachEvent("onload", ready); } catch (e) { } // attach to onload if were in an <iframe> in IE as there's no way to tell otherwise
 			// try { if (aev in document) { window[aev]("onload", ready);} else { addOnload(ready) } } catch (e) { }
 			return;
-		} 
-		try {
-		    document.documentElement.doScroll('left');	// when this statement no longer throws errors, the DOM is accessible in old IE
-		} catch(error) {
-		    setTimeout(function() {
-				(document.readyState === 'complete') ? ready() : doIEScrollCheck();
-		    }, 50);
-		    return;
-		}
-		ready();
+	    } 
+	    try {
+		document.documentElement.doScroll('left');	// when this statement no longer throws errors, the DOM is accessible in old IE
+	    } catch(error) {
+		setTimeout(function() {
+			(document.readyState === 'complete') ? ready() : doIEScrollCheck();
+		}, 50);
+		return;
+	    }
+	    ready();
 	}
 }
