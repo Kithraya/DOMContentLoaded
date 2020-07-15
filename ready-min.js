@@ -1,11 +1,8 @@
 /*! Released under the MIT License | © 2019, Kithraya | https://github.com/Kithraya/DOMContentLoaded */
 
-function DOMContentLoaded() {
-	
-	var ael = 'addEventListener', rel = 'removeEventListener', aev = 'attachEvent', dev = 'detachEvent';
-	var alreadyRun = false,
-	    funcs = arguments, undef; 
-	    DOMContentLoaded.version = "1.2.6";
+function DOMContentLoaded() { 
+	var ael = 'addEventListener', rel = 'removeEventListener', aev = 'attachEvent', dev = 'detachEvent', alreadyRun = false, funcs = arguments, undef;
+	DOMContentLoaded.version = "1.2.6";
 
 	function type(obj) { return (obj === null) ? 'null' : Object.prototype.toString.call(obj).slice(8,-1).toLowerCase() }
 	function microtime() { return + new Date() } 
