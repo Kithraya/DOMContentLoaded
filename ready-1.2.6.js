@@ -1,8 +1,4 @@
-/*!	
- * Released under the MIT License
- * © 2019, Kithraya
- * https://github.com/Kithraya/DOMContentLoaded
- */
+/*! Released under the MIT License | © 2019, Kithraya | https://github.com/Kithraya/DOMContentLoaded */
 
 function DOMContentLoaded(func) {
 	
