@@ -18,7 +18,8 @@ function DOMContentLoaded(func) {
 	
 	 /* IE6 to 10 don't return the correct readyState values as per the spec, except for readyState === 'complete'.
 		readyState is 'interactive' from the beginning in IE6 so checking for the onreadystatechange event like jQuery does is kind of irrelevant
-		unless we're checking specifically for "readyState === 'complete'" which is basically the same as 'window.onload' (they're functionally equivalent, within a few tenths of a second)
+		unless we're checking specifically for "readyState === 'complete'" which is basically the same as 'window.onload' 
+		(they're functionally equivalent, within a few tenths of a second)
 		But IE9+ supports 'DOMContentLoaded' and 'addEventListener' anyway so it's fine (sorta).
 		readyState will be undefined in browsers that don't support it, but accessing undefined properties of 
 		a defined object (document) does not throw Reference Errors
@@ -58,20 +59,21 @@ function DOMContentLoaded(func) {
 	} else 
 	if (aev in document) { window[aev]('onload', ready);
 	    // old Opera has a default of document.attachEvent being falsy, so we use the in operator instead
-		// readystate === 'complete' is functionally equivalent to window.onload, within a few tenths of a second
+	    // readystate === 'complete' is functionally equivalent to window.onload, within a few tenths of a second
 	    // Honestly if somebody is using a browser so outdated AND obscure (like Opera 7 where neither addEventListener 
-	    // nor "DOMContLoaded" is supported, they deserve to wait for the full page) 
+	    // nor "DOMContLoaded" is supported, they deserve to wait for the full page).
 	    // I CBA testing whether readyState === 'interactive' is truly interactive in browsers designed in 2003. I just assume it isn't (like in IE6-8).
 	} else {
-		// fallback to window.onload that will always work
+	   // fallback to window.onload that will always work
 	   addOnload(ready); // queue window.onload
 	}
 	
-	// this function allows us to preserve any original window.onload handlers (in super old browsers), while keeping the option to chain onloads, and dequeue them 
+	// this function allows us to preserve any original window.onload handlers (in super old browsers where this is necessary), 
+	// while keeping the option to chain onloads, and dequeue them 
 	// for completeness' sake
 	function addOnload(fn) { 
 
-		var prev = window.onload; // old window.onload, could be set by this function, or elsewhere
+		var prev = window.onload; // old window.onload, which could be set by this function, or elsewhere
 		
 		// we add a function queue list to allow for dequeueing 
 		if ( type( addOnload.queue ) !== 'array') { addOnload.queue = [];
