@@ -1,4 +1,4 @@
-# DOMContentLoaded
+# DOMContentLoaded.js
 Cross-Browser DOMContentLoaded, with no dependencies.
 
 Tested via BrowserStack with helpful documentation from MDN and various other sites.
