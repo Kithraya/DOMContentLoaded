@@ -5,7 +5,7 @@ Tested via BrowserStack with helpful documentation from MDN and various other si
 
 Works as soon as the DOM is ready in IE6+, Edge, Chrome 1+, Firefox 1+, Opera 9+, Safari 3.1+, Safari iOS, Samsung Internet, with a fallback to window.onload that works everywhere.
 
-Works better than the jQuery equivalent, as jQuery tests for 'onreadystatechange' in browsers that don't report it correctly.
+Works better than the jQuery equivalent, as jQuery tests for 'onreadystatechange' in browsers that don't report it correctly. jQuery also does not return a time parameter for when the DOM loads.
 
 You can use it out of the box like:
 
