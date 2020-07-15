@@ -26,7 +26,7 @@ function DOMContentLoaded(func) {
 	
 	// Check for IE < 11 via conditional compilation
 	
-	var jscript_version = Number( new Function("/*@cc_on return @_jscript_version; @*/")() ) || void 0; // undefined
+	var jscript_version = Number( new Function("/*@cc_on return @_jscript_version; @*/")() ) || void 0; // unalterable undefined
 	
 	// values: 5.6, 5.7, 5.8, 9, 10,(11), undefined. 
 	
