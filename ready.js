@@ -38,7 +38,7 @@ function DOMContentLoaded(func) {
 	// (undefined > 9, undefined < 9, undefined === 9): false
 	if (jscript_version < 9) { doIEScrollCheck(); return; } // For IE<9 poll document.documentElement.doScroll(), no further actions are needed.
 
-	// if somehow readyState doesn't exist, use window.onload
+	// if somehow readyState doesn't exist and we're not in old IE, use window.onload
 	if (!('readyState' in document)) { setTimeout( addOnload(ready), 1); return; } // queue window.onload within a function so we dont overwrite any original event handlers
 	
 	// IE9+ supports 'DOMContentLoaded' and 'addEventListener'.
