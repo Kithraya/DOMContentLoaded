@@ -9,12 +9,12 @@ Works better than the jQuery equivalent, as jQuery tests for 'onreadystatechange
 
 You can use it out of the box like:
 
-``DOMContentLoaded(function(e) { 
+```DOMContentLoaded(function(e) { 
   console.log(e.readyDOMTime, e.funcExecuteTime); // 1594793362957, 1594793362958
   // if the DOM has already loaded by the time this function runs, e.readyDOMTime will be null
   
   // code to execute as soon as the DOM is loaded
-}); ``
+}); ```
 
 jQuery Equivalent: ``$(document).ready(function() { });``
 
