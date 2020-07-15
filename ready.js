@@ -26,7 +26,6 @@ function DOMContentLoaded(func) {
 	 */
 	
 	// Check for IE < 11 via conditional compilation
-	
 	var jscript_version = Number( new Function("/*@cc_on return @_jscript_version; @*/")() ) || undef; // unalterable undefined; void(0) isn't supported until Safari 3.2.
 	
 	// values: 5?: IE5, 5.5?: IE5.5, 5.6/5.7: IE6/7, 5.8: IE8, 9: IE9, 10: IE10, 11*: (IE11 older doc mode), undefined: IE11 / NOT IE
