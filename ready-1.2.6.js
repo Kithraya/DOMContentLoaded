@@ -49,14 +49,14 @@ function DOMContentLoaded() {
 	    window[ael]("load", ready, false); // fallback to the load event in case addEventListener is supported, but not DOMContentLoaded
 	} else 
 	if (aev in document) { window[aev]('onload', ready);
-	    /* Old Opera has a default of document.attachEvent being falsy, so we use the in operator instead
-		   readystate === 'complete' is functionally equivalent to window.onload, within a few tenths of a second
-		   Honestly if somebody is using a browser so outdated AND obscure (like Opera 7 where neither addEventListener 
-	       nor "DOMContLoaded" is supported, they deserve to wait for the full page) 
-	       I CBA testing whether readyState === 'interactive' is truly interactive in browsers designed in 2003. I just assume it isn't (like in IE6-8). 
-	    */
+   	/* Old Opera has a default of document.attachEvent being falsy, so we use the in operator instead
+       	  readystate === 'complete' is functionally equivalent to window.onload, within a few tenths of a second
+	  Honestly if somebody is using a browser so outdated AND obscure (like Opera 7 where neither addEventListener 
+     	  nor "DOMConentLoaded" is supported, they deserve to wait for the full page) 
+     	  I CBA testing whether readyState === 'interactive' is truly interactive in browsers designed in 2003. I just assume it isn't (like in IE6-8). 
+    	*/
 	} else {
-		// fallback to queue window.onload that will always work
+	   // fallback to queue window.onload that will always work
 	   addOnload(ready); 
 	}
 	
