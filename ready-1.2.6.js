@@ -28,9 +28,6 @@ function DOMContentLoaded() {
 	if (document.readyState === 'complete') { setTimeout(ready(null), 1); return; }  // here we send null as the readyTime, since we don't know when the DOM became ready.
 	
 	if (jscript_version < 9) { doIEScrollCheck(); return; } // For IE<9 poll document.documentElement.doScroll(), no further actions are needed.
-
-	// if somehow readyState doesn't exist and we're not in old IE, use window.onload
-	if (!('readyState' in document)) { setTimeout( addOnload(ready), 1); return; } // queue window.onload within addOnload so we dont overwrite any original event handlers
 	
 	 /* 
 		IE9+ supports 'DOMContentLoaded' and 'addEventListener'.
@@ -57,7 +54,7 @@ function DOMContentLoaded() {
     	*/
 	} else {
 	   // fallback to queue window.onload that will always work
-	   addOnload(ready); 
+	   addOnload(ready); // queue window.onload within addOnload so we dont overwrite any original event handlers
 	}
 	
 	// this function allows us to preserve any original window.onload handlers (in super old browsers where this is necessary), 
