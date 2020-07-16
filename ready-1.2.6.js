@@ -4,7 +4,7 @@ function DOMContentLoaded(func) {
 	
 	var ael = 'addEventListener', rel = 'removeEventListener', aev = 'attachEvent', dev = 'detachEvent';
 	var alreadyRun = false, // for use in the idempotent function ready()
-	    funcs = arguments, _undef;
+	    funcs = arguments, undefined; // local instance of `undefined` that cannot be overwritten.
 	    DOMContentLoaded.version = "1.2.6";
 		
 	// old versions of JS return '[object Object]' for null.
@@ -21,7 +21,7 @@ function DOMContentLoaded(func) {
 	 */
 	
 	// Check for IE < 11 via conditional compilation
-	var jscript_version = Number( new Function("/*@cc_on return @_jscript_version; @*/")() ) || _undef; // unalterable undefined; void(0) isn't supported until Safari 3.2.
+	var jscript_version = Number( new Function("/*@cc_on return @_jscript_version; @*/")() ) || undefined; void(0) isn't supported until Safari 3.2.
 	
 	// values: 5?: IE5, 5.5?: IE5.5, 5.6/5.7: IE6/7, 5.8: IE8, 9: IE9, 10: IE10, 11*: (IE11 older doc mode), undefined: IE11 / NOT IE
 
