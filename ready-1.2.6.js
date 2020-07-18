@@ -73,6 +73,7 @@ function DOMContentLoaded() {
 	
 	function dequeueOnload(fn) { var q = addOnload.queue, i = 0;
 	
+		// sort through the queued functions in addOnload.queue until we find `fn`
 		if (type( q ) === 'array') {
 			for (; i < q.length; i++) { ;;(fn === q[i]) ? q.splice(i, 1) : 0; } // void( (fn === q[i]) ? q.splice(i, 1) : 0 ) 
 		}
