@@ -1,4 +1,4 @@
-/*! Released under the MIT License | © 2019-2020, Kithraya | https://github.com/Kithraya/DOMContentLoaded */
+/*! https://github.com/Kithraya/DOMContentLoaded v1.2.6 | MIT License */
 
 DOMContentLoaded.version = "1.2.6";
 
