@@ -6,7 +6,7 @@ function DOMContentLoaded() {
 	
 	var ael = 'addEventListener', rel = 'removeEventListener', aev = 'attachEvent', dev = 'detachEvent';
 	var alreadyRun = false, // for use in the idempotent function ready()
-	    funcs = arguments, undefined; // local instance of `undefined` that cannot be overwritten in ancient JS
+	    funcs = arguments, undefined; // local instance of `undefined` that cannot be overwritten in ancient JS; works with "use strict".
 	
 	// old versions of JS return '[object Object]' for null.
 	function type(obj) { return (obj === null) ? 'null' : Object.prototype.toString.call(obj).slice(8,-1).toLowerCase() }
