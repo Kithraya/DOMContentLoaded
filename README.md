@@ -1,5 +1,5 @@
 # DOMContentLoaded
-Cross-Browser DOMContentLoaded, with no dependencies.
+Cross-Browser DOMContentLoaded polyfill, with no dependencies.
 
 Tested via BrowserStack with helpful documentation from MDN and various other sites.
 
