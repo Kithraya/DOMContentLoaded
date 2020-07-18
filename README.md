@@ -16,7 +16,7 @@ DOMContentLoaded(function(e) {
   // code to execute as soon as the DOM is loaded / accessible
   // if the DOM has already loaded by the time this function runs, e.readyTime will be null
   
-  console.log(e.readyTime, e.funcExecuteTime); // 1594793362957, 1594793362958
+  console.log(this, e.readyTime, e.funcExecuteTime); // 1594793362957, 1594793362958
   
   
 }, function(e) {
