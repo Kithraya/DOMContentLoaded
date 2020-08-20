@@ -1,4 +1,5 @@
 # DOMContentLoaded
+Executes JS as soon as the DOM loads.
 Cross-Browser DOMContentLoaded polyfill, with no dependencies.
 
 Tested via BrowserStack with helpful documentation from MDN and various other sites.
