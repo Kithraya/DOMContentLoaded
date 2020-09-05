@@ -10,7 +10,7 @@ Works better than the jQuery equivalent, as the jQuery fallback tests for 'onrea
 
 You can use it out of the box like:
 
-```
+```javascript
 
 DOMContentLoaded(function(e) { 
 
@@ -29,4 +29,4 @@ DOMContentLoaded(function(e) {
 ```
 
 
-jQuery Equivalent: ``$(document).ready(function() { });``
+jQuery Equivalent: ``1javascript $(document).ready(function() { });``
