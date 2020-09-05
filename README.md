@@ -29,6 +29,7 @@ DOMContentLoaded(function(e) {
 ```
 
 
-jQuery Equivalent: ```javascript 
-
-$(document).ready(function() { });```
+jQuery Equivalent:
+```javascript
+$(document).ready(function() { });
+```
