@@ -1,134 +1,167 @@
-/*! https://github.com/Kithraya/DOMContentLoaded v1.2.6 | MIT License */
+/*! https://github.com/Kithraya/DOMContentLoaded v1.2.6 | MIT License
+    If you happen to be using the version on MDN, attribution is not necessary, but appreciated <3
+ */
 
-DOMContentLoaded.version = "1.2.6";
+DOMContentLoaded.version = "1.2.6.5";
 
-function DOMContentLoaded() { "use strict";
-	
-	var ael = 'addEventListener', rel = 'removeEventListener', aev = 'attachEvent', dev = 'detachEvent';
-	var alreadyRun = false, // for use in the idempotent function ready()
-	    funcs = arguments;
-	
-	// old versions of JS return '[object Object]' for null.
-	function type(obj) { return (obj === null) ? 'null' : Object.prototype.toString.call(obj).slice(8,-1).toLowerCase() }
-	function microtime() { return + new Date() } 
-	
-	 /* document.readyState === 'complete' reports correctly in every browser I have tested, including IE.
-		But IE6 to 10 don't return the correct readyState values as per the spec:
-		readyState is sometimes 'interactive', even when the DOM isn't accessible in IE6/7 so checking for the onreadystatechange event like jQuery does is not optimal
-		readyState is complete at basically the same time as 'window.onload' (they're functionally equivalent, within a few tenths of a second)
-		Accessing undefined properties of a defined object (document) will not throw an error (in case readyState is undefined).
-	 */
-	
-	// Check for IE < 11 via conditional compilation
-	/// values: 5?: IE5, 5.5?: IE5.5, 5.6/5.7: IE6/7, 5.8: IE8, 9: IE9, 10: IE10, 11*: (IE11 older doc mode), undefined: IE11 / NOT IE
-	var jscript_version = Number( new Function("/*@cc_on return @_jscript_version; @*\/")() );
-	
-	// check if the DOM has already loaded
-	if (document.readyState === 'complete') { ready(null); return; }  // here we send null as the readyTime, since we don't know when the DOM became ready.
-	
-	if (jscript_version < 9) { doIEScrollCheck(); return; } // For IE<9 poll document.documentElement.doScroll(), no further actions are needed.
-	
-	 /* 
-		Chrome, Edge, Firefox, IE9+, Opera 9+, Safari 3.1+, Android Webview, Chrome for Android, Edge Mobile, 
-		Firefox for Android 4+, Opera for Android, iOS Safari, Samsung Internet, etc, support addEventListener
-		And IE9+ supports 'DOMContentLoaded' 
-	 */
-		
-	if (document[ael]) {
-	    document[ael]("DOMContentLoaded", ready, false); 
-	    window[ael]("load", ready, false); // fallback to the load event in case addEventListener is supported, but not DOMContentLoaded
-	} else 
-	if (aev in window) { window[aev]('onload', ready);
-	    /* Old Opera has a default of window.attachEvent being falsy, so we use the in operator instead
-		   https://dev.opera.com/blog/window-event-attachevent-detachevent-script-onreadystatechange/
+function DOMContentLoaded() { "use strict"; 
 
-		   Honestly if somebody is using a browser so outdated AND obscure (like Opera 7 where neither addEventListener 
-	       nor "DOMContLoaded" is supported, they deserve to wait for the full page).
-	       I CBA testing whether readyState === 'interactive' is truly interactive in browsers designed in 2003. I just assume it isn't (like in IE6-8). 
-		*/
-	} else { // fallback to queue window.onload that will always work
-	   addOnload(ready);
-	}
-	
-	
-	// This function allows us to preserve any original window.onload handlers (in super old browsers where this is even necessary), 
-	// while keeping the option to chain onloads, and dequeue them.
-	
-	function addOnload(fn) { var prev = window.onload; // old window.onload, which could be set by this function, or elsewhere
-		
-		// we add a function queue list to allow for dequeueing 
-		// addOnload.queue is the queue of functions that we will run when when the DOM is ready
-		if ( type( addOnload.queue ) !== 'array') { addOnload.queue = [];
-			if ( type(prev) === 'function') { addOnload.queue.push( prev ); } // add the previously defined event handler
-		}
-		
-		if (typeof fn === 'function') { addOnload.queue.push(fn) }
+    var ael = 'addEventListener', rel = 'removeEventListener', aev = 'attachEvent', dev = 'detachEvent';
+    var alreadyRun, funcs = arguments; // for use in the idempotent function `ready()`, defined later.
 
-		window.onload = function() { // iterate through the queued functions
-			for (var i = 0; i < addOnload.queue.length; i++) { addOnload.queue[i]() } 
-		};
-	}	
+    function microtime() { return + new Date() } // new Date().valueOf();
+	
+    /* The vast majority of browsers currently in use now support both addEventListener
+       and DOMContentLoaded. However, 2% is still a significant portion of the web, and
+       graceful degradation is still the best design approach.
 
-	// remove a queued window.onload function from the chain (simplified); 
-	
-	function dequeueOnload(fn) { var q = addOnload.queue, i = 0;
-	
-		// sort through the queued functions in addOnload.queue until we find `fn`
-		if (type( q ) === 'array') {		// if found, remove from the queue
-			for (; i < q.length; i++) { ;;(fn === q[i]) ? q.splice(i, 1) : 0; } // void( (fn === q[i]) ? q.splice(i, 1) : 0 ) 
-		}
-	}
-	
-	function ready(ev) { // idempotent event handler function
-	    if (alreadyRun) {return} alreadyRun = true; 
-		
-		// this time is when the DOM has loaded (or if all else fails, when it was actually possible to inference the DOM has loaded via a 'load' event)
-		// perhaps this should be `null` if we have to inference readyTime via a 'load' event, but this functionality is better.
-		var readyTime = microtime(); 
-		
-		detach(); // detach any event handlers
-						
-		// run the functions
-		for (var i=0; i < funcs.length; i++) {	var func = funcs[i];
-			
-			if (type(func) === 'function') {
-				func.call(document, { 
-					'readyTime': (ev === null ? null : readyTime), 
-					'funcExecuteTime': microtime(),
-					'currentFunction': func				
-				}); 
-				// jquery calls 'ready' with `this` being set to document, so we'll do the same. 
-			}		
-		}
-	}
+       `document.readyState === 'complete'` is functionally equivalent to `window.onload`.
+       The events fire within a few tenths of a second, and reported correctly in every
+       browser that was tested, including IE6. But IE6 to 10 did not correctly return the other
+       readyState values as per the spec:
+       In IE6/7+, readyState was sometimes 'interactive', even when the DOM wasn't accessible,
+       so it's safe to assume that listening to the `onreadystatechange` event
+       in legacy browsers is unstable. Should readyState be undefined, accessing undefined properties
+       of a defined object (document) will not throw.
 
-	function detach() {
-	    if (document[rel]) { 
-		document[rel]("DOMContentLoaded", ready); window[rel]("load", ready);
-	    } else
-		if (dev in window) { window[dev]("onload", ready); } 
-	    else {
-		dequeueOnload(ready);
-	    }																
-	}
-	
-	function doIEScrollCheck() { // for use in IE < 9 only.
-	    if ( window.frameElement ) { 
-		// we're in an <iframe> or similar
-		// the document.documentElemeent.doScroll technique does not work if we're not at the top-level (parent document)
+       The following statement checks for IE < 11 via conditional compilation.
+       `@_jscript_version` is a special String variable defined only in IE conditional comments,
+       which themselves only appear as regular comments to other browsers.
+       Browsers not named IE interpret the following code as
+       `Number( new Function("")() )` => `Number(undefined)` => `NaN`.
+       `NaN` is neither >, <, nor = to any other value.
+       Values: IE5: 5?, IE5.5: 5.5?, IE6/7: 5.6/5.7, IE8: 5.8, IE9: 9, IE10: 10,
+       (IE11 older doc mode*): 11, IE11 / NOT IE: undefined
+    */
 
-		try { window.attachEvent("onload", ready); } catch (e) { } // attach to onload if were in an <iframe> in IE as there's no way to tell otherwise
-			
-		return;
-	    } 
-	    try {
-	    	document.documentElement.doScroll('left');	// when this statement no longer throws, the DOM is accessible in old IE
-	    } catch(error) {
-	    	setTimeout(function() {
-			(document.readyState === 'complete') ? ready() : doIEScrollCheck();
-		}, 50);
-		return;
-	    }
-	    ready();
-	}
+    var jscript_version = Number( new Function("/*@cc_on return @_jscript_version; @*\/")() );
+
+    // check if the DOM has already loaded
+    // If it has, send null as the readyTime, since we don't know when the DOM became ready.
+
+    if (document.readyState === 'complete') { ready(null); return; } // call ready() and exit.
+
+    // For IE<9 poll document.documentElement.doScroll(), no further actions are needed.
+    if (jscript_version < 9) { doIEScrollCheck(); return; }
+
+    // ael: addEventListener, rel: removeEventListener, aev: attachEvent, dev: detachEvent
+
+    if (document[ael]) {
+        document[ael]("DOMContentLoaded", ready, false);
+        window[ael]("load", ready, false); // fallback to the universal load event in case DOMContentLoaded isn't supported.
+    } else
+    if (aev in window) { window[aev]('onload', ready);
+        // Old Opera has a default of window.attachEvent being falsy, so we use the in operator instead.
+        // https://dev.opera.com/blog/window-event-attachevent-detachevent-script-onreadystatechange/
+    } else {
+        // fallback to window.onload that will always work.
+        addOnload(ready);
+    }
+
+    // addOnload: Allows us to preserve any original `window.onload` handlers,
+    // in ancient (prehistoric?) browsers where this is even necessary, while providing the
+    // option to chain onloads, and dequeue them later.
+
+    function addOnload(fn) { 
+
+        var prev = window.onload; // old `window.onload`, which could be set by this function, or elsewhere.
+
+        // Here we add a function queue list to allow for dequeueing.
+        // Should we have to use window.onload, `addOnload.queue` is the queue of functions
+        // that we will run when when the DOM is ready.
+
+        if (typeof addOnload.queue !== 'object') { // allow loose typing of arrays
+            addOnload.queue = [];
+            if (typeof prev === 'function') {
+                addOnload.queue.push( prev ); // add the previously defined event handler, if any.
+            }
+        }
+
+        if (typeof fn === 'function') { addOnload.queue.push(fn) }
+
+        window.onload = function() { // iterate through the queued functions
+            for (var i=0; i < addOnload.queue.length; i++) { addOnload.queue[i]() }
+        };
+    }
+
+    // dequeueOnload: remove a queued `addOnload` function from the chain.
+
+    function dequeueOnload(fn, eraseAllMatching) {
+
+        // Sort backwards through the queued functions in `addOnload.queue` (if it's defined)
+        // until we find `fn`, and then remove `fn` from its place in the array.
+
+        if (typeof addOnload.queue === 'object') {
+            for (var i = addOnload.queue.length-1; i >= 0; i--) {
+                if (fn === addOnload.queue[i]) {
+                    addOnload.queue.splice(i,1); if (!eraseAllMatching) {break}
+                }
+            }
+        }
+    }
+
+    // ready: idempotent event handler function
+
+    function ready(time) {
+        if (alreadyRun) {return} alreadyRun = true;
+
+        // This time is when the DOM has loaded, or, if all else fails,
+        // when it was actually possible to inference that the DOM has loaded via a 'load' event.
+
+        var readyTime = microtime();
+
+        detach(); // detach any event handlers
+
+        // run the functions (funcs is arguments of DOMContentLoaded)
+        for (var i=0; i < funcs.length; i++) { var func = funcs[i];
+
+            if (typeof func === 'function') {
+                // force set `this` to `document`, for consistency.
+                func.call(document, {
+                  'readyTime': (time === null ? null : readyTime),
+                  'funcExecuteTime': microtime(),
+                  'currentFunction': func
+                });
+            }
+        }
+    }
+
+    // detach: detach all the currently registered events.
+
+    function detach() {
+        if (document[rel]) {
+            document[rel]("DOMContentLoaded", ready); window[rel]("load", ready);
+        } else
+        if (dev in window) { window[dev]("onload", ready); }
+        else {
+            dequeueOnload(ready);
+        }
+    }
+
+    // doIEScrollCheck: poll document.documentElement.doScroll until it no longer throws.
+
+    function doIEScrollCheck() { // for use in IE < 9 only.
+        if ( window.frameElement ) {
+            /* We're in an `iframe` or similar.
+               The `document.documentElement.doScroll` technique does not work if we're not
+               at the top-level (parent document).
+               Attach to onload if we're in an <iframe> in IE as there's no way to tell otherwise
+            */
+            try { window.attachEvent("onload", ready); } catch (e) { }
+            return;
+        }
+        // if we get here, we're not in an `iframe`.
+        try {
+            // when this statement no longer throws, the DOM is accessible in old IE
+            document.documentElement.doScroll('left');
+        } catch(error) {
+            setTimeout(function() {
+                (document.readyState === 'complete') ? ready() : doIEScrollCheck();
+            }, 50);
+            return;
+        }
+        ready();
+    }
 }
+
+// Tested via BrowserStack.
