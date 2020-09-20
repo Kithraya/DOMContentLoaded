@@ -21,7 +21,7 @@ function DOMContentLoaded() { "use strict";
 	
 	// Check for IE < 11 via conditional compilation
 	/// values: 5?: IE5, 5.5?: IE5.5, 5.6/5.7: IE6/7, 5.8: IE8, 9: IE9, 10: IE10, 11*: (IE11 older doc mode), undefined: IE11 / NOT IE
-	var jscript_version = Number( new Function("/*@cc_on return @_jscript_version; @*\/")() ) || NaN;
+	var jscript_version = Number( new Function("/*@cc_on return @_jscript_version; @*\/")() );
 	
 	// check if the DOM has already loaded
 	if (document.readyState === 'complete') { ready(null); return; }  // here we send null as the readyTime, since we don't know when the DOM became ready.
@@ -92,7 +92,11 @@ function DOMContentLoaded() { "use strict";
 		for (var i=0; i < funcs.length; i++) {	var func = funcs[i];
 			
 			if (type(func) === 'function') {
-				func.call(document, { 'readyTime': (ev === null ? null : readyTime), 'funcExecuteTime': microtime() }, func); 
+				func.call(document, { 
+					'readyTime': (ev === null ? null : readyTime), 
+					'funcExecuteTime': microtime(),
+					'currentFunction': func				
+				}); 
 				// jquery calls 'ready' with `this` being set to document, so we'll do the same. 
 			}		
 		}
@@ -100,31 +104,31 @@ function DOMContentLoaded() { "use strict";
 
 	function detach() {
 	    if (document[rel]) { 
-			document[rel]("DOMContentLoaded", ready); window[rel]("load", ready);
+		document[rel]("DOMContentLoaded", ready); window[rel]("load", ready);
 	    } else
 		if (dev in window) { window[dev]("onload", ready); } 
 	    else {
-			dequeueOnload(ready);
+		dequeueOnload(ready);
 	    }																
 	}
 	
 	function doIEScrollCheck() { // for use in IE < 9 only.
 	    if ( window.frameElement ) { 
-			// we're in an <iframe> or similar
-			// the document.documentElemeent.doScroll technique does not work if we're not at the top-level (parent document)
+		// we're in an <iframe> or similar
+		// the document.documentElemeent.doScroll technique does not work if we're not at the top-level (parent document)
 
-			try { window.attachEvent("onload", ready); } catch (e) { } // attach to onload if were in an <iframe> in IE as there's no way to tell otherwise
+		try { window.attachEvent("onload", ready); } catch (e) { } // attach to onload if were in an <iframe> in IE as there's no way to tell otherwise
 			
-			return;
-		} 
-		try {
-		    document.documentElement.doScroll('left');	// when this statement no longer throws, the DOM is accessible in old IE
-		} catch(error) {
-		    setTimeout(function() {
-				(document.readyState === 'complete') ? ready() : doIEScrollCheck();
-		    }, 50);
-		    return;
-		}
-		ready();
+		return;
+	    } 
+	    try {
+	    	document.documentElement.doScroll('left');	// when this statement no longer throws, the DOM is accessible in old IE
+	    } catch(error) {
+	    	setTimeout(function() {
+			(document.readyState === 'complete') ? ready() : doIEScrollCheck();
+		}, 50);
+		return;
+	    }
+	    ready();
 	}
 }
