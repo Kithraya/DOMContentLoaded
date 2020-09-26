@@ -1,17 +1,15 @@
-/*! https://github.com/Kithraya/DOMContentLoaded v1.2.6 | MIT License
-    If you happen to be using the version on MDN, attribution is not necessary, but appreciated <3
+/*! https://github.com/Kithraya/DOMContentLoaded v1.2.7 | MIT License
+	If you happen to be using the MDN version, attribution is not necessary, but appreciated <3
  */
 
-DOMContentLoaded.version = "1.2.6.5";
+DOMContentLoaded.version = "1.2.7";
 
-function DOMContentLoaded() { "use strict"; 
+function DOMContentLoaded() { "use strict";
 
     var ael = 'addEventListener', rel = 'removeEventListener', aev = 'attachEvent', dev = 'detachEvent';
     var alreadyRun, funcs = arguments; // for use in the idempotent function `ready()`, defined later.
 
-    function microtime() { return + new Date() } // new Date().valueOf();
-	
-    /* The vast majority of browsers currently in use now support both addEventListener
+	/* The vast majority of browsers currently in use now support both addEventListener
        and DOMContentLoaded. However, 2% is still a significant portion of the web, and
        graceful degradation is still the best design approach.
 
@@ -62,7 +60,7 @@ function DOMContentLoaded() { "use strict";
     // in ancient (prehistoric?) browsers where this is even necessary, while providing the
     // option to chain onloads, and dequeue them later.
 
-    function addOnload(fn) { 
+    function addOnload(fn) {
 
         var prev = window.onload; // old `window.onload`, which could be set by this function, or elsewhere.
 
@@ -78,7 +76,7 @@ function DOMContentLoaded() { "use strict";
         }
 
         if (typeof fn === 'function') { addOnload.queue.push(fn) }
-
+		
         window.onload = function() { // iterate through the queued functions
             for (var i=0; i < addOnload.queue.length; i++) { addOnload.queue[i]() }
         };
@@ -86,7 +84,7 @@ function DOMContentLoaded() { "use strict";
 
     // dequeueOnload: remove a queued `addOnload` function from the chain.
 
-    function dequeueOnload(fn, eraseAllMatching) {
+    function dequeueOnload(fn, all) {
 
         // Sort backwards through the queued functions in `addOnload.queue` (if it's defined)
         // until we find `fn`, and then remove `fn` from its place in the array.
@@ -94,7 +92,7 @@ function DOMContentLoaded() { "use strict";
         if (typeof addOnload.queue === 'object') {
             for (var i = addOnload.queue.length-1; i >= 0; i--) {
                 if (fn === addOnload.queue[i]) {
-                    addOnload.queue.splice(i,1); if (!eraseAllMatching) {break}
+                    addOnload.queue.splice(i,1); if (!all) {break}
                 }
             }
         }
@@ -108,18 +106,19 @@ function DOMContentLoaded() { "use strict";
         // This time is when the DOM has loaded, or, if all else fails,
         // when it was actually possible to inference that the DOM has loaded via a 'load' event.
 
-        var readyTime = microtime();
+        var readyTime = +new Date();
 
-        detach(); // detach any event handlers
+        detach(); // detach all our event handlers
 
         // run the functions (funcs is arguments of DOMContentLoaded)
         for (var i=0; i < funcs.length; i++) { var func = funcs[i];
 
             if (typeof func === 'function') {
+
                 // force set `this` to `document`, for consistency.
                 func.call(document, {
                   'readyTime': (time === null ? null : readyTime),
-                  'funcExecuteTime': microtime(),
+                  'funcExecuteTime': +new Date(),
                   'currentFunction': func
                 });
             }
