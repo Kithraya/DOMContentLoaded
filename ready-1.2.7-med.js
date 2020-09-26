@@ -1,5 +1,5 @@
 /*! https://github.com/Kithraya/DOMContentLoaded v1.2.7 | MIT License
-	If you happen to be using the version on MDN, attribution is not necessary, but appreciated <3
+    If you happen to be using the version on MDN, attribution is not necessary, but appreciated <3
  */
 
 DOMContentLoaded.version = "1.2.7";
