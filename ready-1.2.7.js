@@ -106,7 +106,7 @@ function DOMContentLoaded() { "use strict";
         // This time is when the DOM has loaded, or, if all else fails,
         // when it was actually possible to inference that the DOM has loaded via a 'load' event.
 
-        var readyTime = +new Date();
+        var readyTime = +new Date(); // new Date().valueOf()
 
         detach(); // detach all our event handlers
 
