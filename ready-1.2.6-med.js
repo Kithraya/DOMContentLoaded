@@ -1,16 +1,14 @@
-/*! https://github.com/Kithraya/DOMContentLoaded v1.2.6 | MIT License
-    If you happen to be using the version on MDN, attribution is not necessary, but appreciated <3
+/*! https://github.com/Kithraya/DOMContentLoaded v1.2.7 | MIT License
+	If you happen to be using the version on MDN, attribution is not necessary, but appreciated <3
  */
 
-DOMContentLoaded.version = "1.2.6.5";
+DOMContentLoaded.version = "1.2.7";
 
 function DOMContentLoaded() { "use strict";
 
     var ael = 'addEventListener', rel = 'removeEventListener', aev = 'attachEvent', dev = 'detachEvent';
     var alreadyRun, funcs = arguments;
-
-    function microtime() { return + new Date() }
-
+	
     var jscript_version = Number( new Function("/*@cc_on return @_jscript_version; @*\/")() );
 
     if (document.readyState === 'complete') { ready(null); return; }
@@ -23,7 +21,8 @@ function DOMContentLoaded() { "use strict";
 
     function addOnload(fn) { var prev = window.onload;
 
-        if (typeof addOnload.queue !== 'object') { addOnload.queue = [];
+        if (typeof addOnload.queue !== 'object') { 
+			addOnload.queue = [];
             if (typeof prev === 'function') { addOnload.queue.push( prev ); }
         }
         if (typeof fn === 'function') { addOnload.queue.push(fn) }
@@ -31,11 +30,11 @@ function DOMContentLoaded() { "use strict";
         window.onload = function() { for (var i=0; i < addOnload.queue.length; i++) { addOnload.queue[i]() } };
     }
 
-    function dequeueOnload(fn, eraseAllMatching) {
+    function dequeueOnload(fn, all) {
         if (typeof addOnload.queue === 'object') {
             for (var i = addOnload.queue.length-1; i >= 0; i--) {
                 if (fn === addOnload.queue[i]) {
-                    addOnload.queue.splice(i,1); if (!eraseAllMatching) {break}
+                    addOnload.queue.splice(i,1); if (!all) {break}
                 }
             }
         }
@@ -43,14 +42,17 @@ function DOMContentLoaded() { "use strict";
 
     function ready(time) {
         if (alreadyRun) {return} alreadyRun = true;
-        var readyTime = microtime(); detach();
+		
+        var readyTime = +new Date();
+		
+		detach();
 
         for (var i=0; i < funcs.length; i++) { var func = funcs[i];
 
             if (typeof func === 'function') {
                 func.call(document, {
                   'readyTime': (time === null ? null : readyTime),
-                  'funcExecuteTime': microtime(),
+                  'funcExecuteTime': +new Date(),
                   'currentFunction': func
                 });
             }
