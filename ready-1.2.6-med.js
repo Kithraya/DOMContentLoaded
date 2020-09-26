@@ -22,7 +22,7 @@ function DOMContentLoaded() { "use strict";
     function addOnload(fn) { var prev = window.onload;
 
         if (typeof addOnload.queue !== 'object') { 
-			addOnload.queue = [];
+	    addOnload.queue = [];
             if (typeof prev === 'function') { addOnload.queue.push( prev ); }
         }
         if (typeof fn === 'function') { addOnload.queue.push(fn) }
@@ -45,7 +45,7 @@ function DOMContentLoaded() { "use strict";
 		
         var readyTime = +new Date();
 		
-		detach();
+	detach();
 
         for (var i=0; i < funcs.length; i++) { var func = funcs[i];
 
